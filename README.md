@@ -1,7 +1,25 @@
 # AppListRecipes
 Projet de développement mobile réalisé en react native
 
-Premier lancement :
+## Premier lancement :
+
+Installer **Node.js** (LTS).
+
+Installer **les dépendances** du projet :
+```
+npm install
+```
+
+Installer **Expo** en global :
+```
+npm install -g expo-cli
+```
+
+Installer **l'application Expo** sur tablette/smartphone.
+
+Avant de démarrer, résoudre les éventuelles erreurs.
+
+## Fix
 
 Après installation des dépendances, corriger dans le fichier *\node_modules\metro-config\src\defaults\blacklist.js*
 
@@ -24,3 +42,7 @@ var sharedBlacklist = [
   /.*\/__tests__\/.*/
 ];
 ```
+
+## Démarrage
+
+Lancer la commande ``` expo start ``` ou ``` npm start ``` pour démarrer.
