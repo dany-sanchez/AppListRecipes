@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { View, TextInput, StyleSheet, Image } from 'react-native';
+import { colors } from '../definitions/colors';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { assets } from '../definitions/assets';
 
-const Search = () => {
-
+const Search = ({ navigation }) => {
     return (
         <View style={styles.mainView}>
             <View style={styles.searchView}>
@@ -11,22 +12,21 @@ const Search = () => {
                     style={styles.searchField}
                     placeholder='Nom de la recette'
                 />
-                <Button
-                    icon={
-                        <Icon
-                            name="arrow-right"
-                            size={15}
-                            color="white"
-                        />
-                    }
-                    iconRight
-                    title="Button with right icon"
-                />
+                <TouchableOpacity
+                    style={styles.searchButton}
+                >
+                    <Image style={styles.searchButtonIcon}
+                        source={assets.searchIcon}
+                    />
+                </TouchableOpacity>
             </View>
-            <FontAwesomeIcon icon={faSearch} />
         </View>
     );
 }
+
+Search.navigationOptions = {
+    title: 'Recherche',
+};
 
 export default Search;
 
@@ -38,8 +38,24 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         paddingRight: 10,
         paddingBottom: 5,
+        paddingTop: 10,
+        flexDirection: 'row',
+    },
+    searchButton: {
+        borderRadius: 5,
+        backgroundColor: colors.mainOrangeColor,
+        padding: 10,
+    },
+    searchButtonIcon: {
+        height: 20,
+        width: 20,
+        tintColor: 'white',
     },
     searchField: {
-        padding: 5
+        marginRight: 10,
+        padding: 5,
+        flex: 1,
+        borderBottomWidth: 1,
+        borderBottomColor: colors.mainOrangeColor,
     },
 });
