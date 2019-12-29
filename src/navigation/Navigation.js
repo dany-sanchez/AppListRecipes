@@ -1,7 +1,14 @@
+import React from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { StyleSheet, Image } from 'react-native';
 
 import Search from '../components/Search';
+import Home from '../components/Home';
+import Settings from '../components/Settings';
+import { assets } from '../definitions/assets';
+import { colors } from '../definitions/colors';
 
 const SearchNavigation = createStackNavigator({
   Search: Search,
@@ -10,4 +17,64 @@ const SearchNavigation = createStackNavigator({
   initialRouteName: 'Search',
 });
 
-export default createAppContainer(SearchNavigation);
+const HomeNavigation = createStackNavigator({
+  Home: Home,
+  Search: Search,
+},
+{
+  initialRouteName: 'Home',
+});
+
+const SettingsNavigation = createStackNavigator({
+  Settings: Settings,
+},
+{
+  initialRouteName: 'Settings',
+});
+
+const TabNavigation = createBottomTabNavigator({
+  Search: {
+    screen: SearchNavigation,
+    navigationOptions: {
+      title: 'Recherche',
+      tabBarIcon: ({tintColor}) => {
+        return <Image style={[{tintColor}, styles.tabIcon]} source={assets.searchIcon} />
+      },
+    },
+  },
+  Home: {
+    screen: HomeNavigation,
+    navigationOptions: {
+      title: 'Home',
+      tabBarIcon: ({tintColor}) => {
+        return <Image style={[{tintColor}, styles.tabIcon]} source={assets.homeIcon} />
+      },
+    },
+  },
+  Settings: {
+    screen: SettingsNavigation,
+    navigationOptions: {
+      title: 'Settings',
+      tabBarIcon: ({tintColor}) => {
+        return <Image style={[{tintColor}, styles.tabIcon]} source={assets.settingsIcon} />
+      },
+    },
+  },
+},
+{
+  tabBarOptions: {
+    activeBackgroundColor: colors.mainWhiteColor,
+    activeTintColor: colors.mainOrangeColor,
+    showLabel: false,
+  },
+  initialRouteName: 'Home',
+});
+
+export default createAppContainer(TabNavigation);
+
+const styles = StyleSheet.create({
+  tabIcon: {
+    width: 20,
+    height: 20,
+  }
+});
