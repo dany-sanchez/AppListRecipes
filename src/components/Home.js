@@ -6,26 +6,26 @@ import { assets } from '../definitions/assets';
 const Home = ({ navigation }) => {
     return (
         <View style={styles.mainView}>
-            <View>
-                <TouchableOpacity style={styles.homeButton}>
-                    <View style={styles.homeButtonView}>
-                        <Image style={styles.homeButtonIcon} source={assets.fridgeIcon} />
+            <View style={styles.buttonsContainer}>
+                <TouchableOpacity style={styles.buttonContainer}>
+                    <View style={styles.buttonView}>
+                        <Image style={styles.buttonIcon} source={assets.fridgeIcon} />
                         <View style={styles.textContainer}>
                             <Text style={styles.homeButtonText}>Mon frigo</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.homeButton}>
-                    <View style={styles.homeButtonView}>
-                        <Image style={styles.homeButtonIcon} source={assets.shoppingCartIcon} />
+                <TouchableOpacity style={styles.buttonContainer}>
+                    <View style={styles.buttonView}>
+                        <Image style={styles.buttonIcon} source={assets.shoppingCartIcon} />
                         <View style={styles.textContainer}>
                             <Text style={styles.homeButtonText}>Ma liste</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.homeButton}>
-                    <View style={styles.homeButtonView}>
-                        <Image style={styles.homeButtonIcon} source={assets.bookmarkIcon} />
+                <TouchableOpacity style={styles.buttonContainer}>
+                    <View style={styles.buttonView}>
+                        <Image style={styles.buttonIcon} source={assets.bookmarkIcon} />
                         <View style={styles.textContainer}>
                             <Text style={styles.homeButtonText}>Mes recettes</Text>
                         </View>
@@ -48,19 +48,20 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center'
     },
-    homeButton: {
+    buttonsContainer: {
+        justifyContent: 'center',
+    },
+    buttonContainer: {
         backgroundColor: colors.mainOrangeColor,
         margin: 20,
         borderRadius: 5,
     },
-    homeButtonView: {
+    buttonView: {
         flexDirection: 'row',
-        paddingBottom: 15,
-        paddingTop: 15,
-        paddingLeft: 10,
-        paddingRight: 10,
+        paddingVertical: 15,
+        paddingHorizontal: 10,
     },
-    homeButtonIcon: {
+    buttonIcon: {
         alignSelf: 'center',
         marginRight: 5,
         width: 25,

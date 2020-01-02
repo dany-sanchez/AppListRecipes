@@ -3,8 +3,13 @@ import { View, TextInput, StyleSheet, Image, Button, Text } from 'react-native';
 import { colors } from '../definitions/colors';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { assets } from '../definitions/assets';
+import ListRecipes from './ListRecipes';
+import { recipesFakeData } from '../helper/recipesFakeData';
 
 const Search = ({ navigation }) => {
+    const _navigateToRecipeDetails = (recipeID) => {
+        navigation.navigate('Recipe', { recipeID })
+    }
     return (
         <View style={styles.mainView}>
             <View style={styles.searchView}>
@@ -38,6 +43,10 @@ const Search = ({ navigation }) => {
                     <Text style={styles.textButton}>Que puis-je cuisiner aujourd'hui ?</Text>
                 </TouchableOpacity>
             </View>
+            <ListRecipes
+                recipes={recipesFakeData.results}
+                onClickNavigation={_navigateToRecipeDetails}
+            />
         </View>
     );
 }
@@ -70,8 +79,7 @@ const styles = StyleSheet.create({
     },
     searchOptionsView: {
         paddingHorizontal: 10,
-        paddingBottom: 5,
-        paddingTop: 10,
+        paddingVertical: 10,
     },
     optionsContainer: {
         flexDirection: 'row',
@@ -101,7 +109,6 @@ const styles = StyleSheet.create({
         marginRight: 10,
         borderBottomWidth: 1,
         borderBottomColor: colors.mainOrangeColor,
-        fontSize: 18,
     },
     textContainer: {
         alignItems: 'center',
@@ -110,6 +117,6 @@ const styles = StyleSheet.create({
     textOptions: {
         fontStyle: 'italic',
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 18,
     },
 });

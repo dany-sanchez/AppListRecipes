@@ -7,11 +7,13 @@ import { StyleSheet, Image } from 'react-native';
 import Search from '../components/Search';
 import Home from '../components/Home';
 import Settings from '../components/Settings';
+import Recipe from '../components/Recipe';
 import { assets } from '../definitions/assets';
 import { colors } from '../definitions/colors';
 
 const SearchNavigation = createStackNavigator({
   Search: Search,
+  Recipe: Recipe,
 },
 {
   initialRouteName: 'Search',
@@ -19,7 +21,6 @@ const SearchNavigation = createStackNavigator({
 
 const HomeNavigation = createStackNavigator({
   Home: Home,
-  Search: Search,
 },
 {
   initialRouteName: 'Home',
