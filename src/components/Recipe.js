@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, ActivityIndicator, Image } from 'react-native';
+import { StyleSheet, View, ActivityIndicator, Image, Text } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { getRecipeImagePath, getRecipeDetails } from '../api/spoonacular';
 import { recipeDetailsFakeData } from '../helper/recipeDetailsFakeData';
@@ -35,11 +35,33 @@ const Recipe = ({ navigation }) => {
             return (
                 <ScrollView style={styles.scrollViewRecipe}>
                     <Image style={styles.recipeImage}
-                        source={{ uri: getRecipeImagePath(recipeData.id) }}
+                        source={{ uri: getRecipeImagePath(recipeData.id, recipeData.imageType) }}
                     />
+                    <View style={styles.descriptionContainer}>
+                        <View style={styles.detailsContainer}>
+                            <Text style={styles.nameText}>
+                                {recipeData.title}
+                            </Text>
+                            <View style={styles.cuisineDietContainer}>
+                                <Text style={styles.cuisineText}>
+                                    {recipeData.cuisines.join()} cuisine(s)
+                                </Text>
+                                <Text style={styles.dietText}>
+                                    {recipeData.diets.join()} diet(s)
+                                </Text>
+                            </View>
+                            <Text style={styles.prepTimeText}>
+                                Prêt en {recipeData.readyInMinutes}min, jusqu'à {recipeData.servings} personnes
+                            </Text>
+                        </View>
+                        <View style={styles.ingredientsContainer}></View>
+                        <View style={styles.instructionsContainer}></View>
+                        <View style={styles.wineContainer}></View>
+                    </View>
                 </ScrollView>
             )
         }
+        return null;
     }
 
     return (
@@ -71,4 +93,18 @@ const styles = StyleSheet.create({
     recipeImage: {
         height: 250,
     },
+    descriptionContainer: {
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+    },
+    detailsContainer: {
+        marginBottom: 10,
+    },
+    nameText: {
+        fontSize: 23,
+        fontWeight: 'bold',
+    },
+    cuisineDietContainer: {
+        marginVertical: 10,
+    }
 });

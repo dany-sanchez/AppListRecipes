@@ -32,6 +32,6 @@ export async function getRecipeDetails(recipeID) {
     }
 }
 
-export function getRecipeImagePath(recipeID, dimensions, type) {
+export function getRecipeImagePath(recipeID, type, dimensions) {
     return recipeImagePath = `https://spoonacular.com/recipeImages/${recipeID}-${dimensions || '556x370'}.${type || 'jpg'}`;
 }
