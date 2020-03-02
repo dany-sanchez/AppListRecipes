@@ -1,9 +1,7 @@
 const API_KEY = 'd99016218c4242bba3927c475191b2f9';
 
-export async function getRecipesOfDietAndCuisineWithSearch(searchTerm, startOffset, diet, cuisine) {
+const fetchUrl = async (url, errorMessage = 'Error when fetching url') => {
   try {
-    const url = `https://api.spoonacular.com/recipes/search?apiKey=${API_KEY}&query=${searchTerm || '%20'}&diet=${diet || ''}&cuisine=${cuisine || ''}&offset=${startOffset || '0'}`;
-
     const response = await fetch(url);
     if (response.ok) {
       return response.json();
@@ -11,25 +9,32 @@ export async function getRecipesOfDietAndCuisineWithSearch(searchTerm, startOffs
     throw new Error(response.status);
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error(`Error with function getRecipesOfDietAndCuisineWithSearch ${error.message}`);
+    console.error(`${errorMessage} ${error.message}`);
     throw error;
   }
+};
+
+export async function getRecipesOfDietAndCuisineWithSearch(searchTerm, startOffset, diet, cuisine) {
+  const url = `https://api.spoonacular.com/recipes/search?apiKey=${API_KEY}&query=${searchTerm || '%20'}&diet=${diet || ''}&cuisine=${cuisine || ''}&offset=${startOffset || '0'}`;
+  const response = await fetchUrl(url, 'Error with function getRecipesOfDietAndCuisineWithSearch');
+
+  return response;
+}
+
+export async function getRecipesWithIngredientsFromFridge() {
+  // TODO: ajouter la recherche des ingrédients depuis le frigo
+  const ingredients = '';
+  const url = `https://api.spoonacular.com/recipes/findByIngredients?apiKey=${API_KEY}&ingredients=${ingredients || ''}`;
+  const response = await fetchUrl(url, 'Error with function getRecipesWithIngredientsFromFridge');
+
+  return response;
 }
 
 export async function getRecipeDetails(recipeID) {
-  try {
-    const url = `https://api.spoonacular.com/recipes/${recipeID}/information?apiKey=${API_KEY}`;
+  const url = `https://api.spoonacular.com/recipes/${recipeID}/information?apiKey=${API_KEY}`;
+  const response = await fetchUrl(url, 'Error with function getRecipeDetails');
 
-    const response = await fetch(url);
-    if (response.ok) {
-      return response.json();
-    }
-    throw new Error(response.status);
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(`Error with function getRecipeDetails ${error.message}`);
-    throw error;
-  }
+  return response;
 }
 
 export function getRecipeImagePath(recipeID, type, dimensions) {

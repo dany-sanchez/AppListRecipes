@@ -1,23 +1,34 @@
 import React, { useState, useRef } from 'react';
 import {
-  View, TextInput, StyleSheet, Image, Text, Keyboard
+  View, TextInput, StyleSheet, Image, Text, Keyboard, Picker
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../definitions/colors';
 import assets from '../definitions/assets';
 import ListRecipes from './ListRecipes';
-import { getRecipesOfDietAndCuisineWithSearch } from '../api/spoonacular';
+import { getRecipesOfDietAndCuisineWithSearch, getRecipesWithIngredientsFromFridge } from '../api/spoonacular';
 import DisplayError from './DisplayError';
+import diets from '../store/definitions/diets';
+import cuisines from '../store/definitions/cuisines';
+
+const searchTypeEnum = { normal: 'normal', fridge: 'fridge' };
 
 const SearchRecipe = ({ navigation }) => {
   const [recipes, setRecipes] = useState([]);
+  const [searchDiet, setSearchDiet] = useState('');
+  const [searchCuisine, setSearchCuisine] = useState('');
   const [isRefreshing, setRefreshingState] = useState(false);
   const [isErrorDuringDataLoading, setErrorDataLoading] = useState(false);
   const searchTerm = useRef('');
+  const searchType = useRef(searchTypeEnum.normal);
   const paginationData = useRef({ currentOffset: 0, maxResults: 0 });
 
   const inputSearchTermChanged = (text) => {
     searchTerm.current = text;
+  };
+
+  const searchTypeChanged = (type) => {
+    searchType.current = type;
   };
 
   const loadRecipes = async (prevRecipes) => {
@@ -26,7 +37,9 @@ const SearchRecipe = ({ navigation }) => {
     try {
       const spoonacularSearchResult = await getRecipesOfDietAndCuisineWithSearch(
         searchTerm.current,
-        paginationData.current.currentOffset
+        paginationData.current.currentOffset,
+        searchDiet,
+        searchCuisine
       );
       paginationData.current = {
         currentOffset: paginationData.current.currentOffset + spoonacularSearchResult.number,
@@ -44,12 +57,32 @@ const SearchRecipe = ({ navigation }) => {
 
   const searchRecipes = () => {
     paginationData.current = { currentOffset: 0, maxResults: 0 };
-    loadRecipes([]);
+
+    if (searchType.current === searchTypeEnum.normal) {
+      loadRecipes([]);
+    } else if (searchType.current === searchTypeEnum.fridge) {
+      loadFridgeRecipes();
+    }
   };
 
   const loadMoreRecipes = () => {
-    if (paginationData.current.currentOffset < paginationData.current.maxResults) {
+    if (searchType.current === searchTypeEnum.normal
+      && paginationData.current.currentOffset < paginationData.current.maxResults) {
       loadRecipes(recipes);
+    }
+  };
+
+  const loadFridgeRecipes = async () => {
+    setRefreshingState(true);
+    setErrorDataLoading(false);
+    try {
+      const spoonacularSearchResult = await getRecipesWithIngredientsFromFridge();
+      setRecipes(spoonacularSearchResult);
+    } catch {
+      setRecipes([]);
+      setErrorDataLoading(true);
+    } finally {
+      setRefreshingState(false);
     }
   };
 
@@ -64,11 +97,15 @@ const SearchRecipe = ({ navigation }) => {
           style={styles.searchField}
           placeholder="Nom de la recette"
           onChangeText={(text) => inputSearchTermChanged(text)}
-          onSubmitEditing={searchRecipes}
+          onSubmitEditing={() => { searchTypeChanged(searchTypeEnum.normal); searchRecipes(); }}
         />
         <TouchableOpacity
           style={styles.searchButton}
-          onPress={() => { searchRecipes(); Keyboard.dismiss(); }}
+          onPress={() => {
+            searchTypeChanged(searchTypeEnum.normal);
+            searchRecipes();
+            Keyboard.dismiss();
+          }}
         >
           <Image
             style={styles.searchButtonIcon}
@@ -79,20 +116,40 @@ const SearchRecipe = ({ navigation }) => {
       <View style={styles.searchOptionsView}>
         <View style={styles.optionsContainer}>
           <View style={styles.optionButtonView}>
-            <TouchableOpacity style={styles.optionButtonDiet}>
-              <Text style={styles.textButton}>Régime ?</Text>
-            </TouchableOpacity>
+            <Picker
+              mode="dropdown"
+              selectedValue={searchDiet}
+              onValueChange={(value) => setSearchDiet(value)}
+            >
+              <Picker.Item label="Régime ?" value="" />
+              {diets.map(
+                (diet) => <Picker.Item label={diet} key={diet} value={diet} />
+              )}
+            </Picker>
           </View>
           <View style={styles.optionButtonView}>
-            <TouchableOpacity style={styles.optionButtonCuisine}>
-              <Text style={styles.textButton}>Cuisine ?</Text>
-            </TouchableOpacity>
+            <Picker
+              mode="dropdown"
+              selectedValue={searchCuisine}
+              onValueChange={(value) => setSearchCuisine(value)}
+            >
+              <Picker.Item label="Cuisine ?" value="" />
+              {cuisines.map(
+                (cuisine) => <Picker.Item label={cuisine} key={cuisine} value={cuisine} />
+              )}
+            </Picker>
           </View>
         </View>
         <View style={styles.textContainer}>
           <Text style={styles.textOptions}>OU</Text>
         </View>
-        <TouchableOpacity style={styles.searchButton}>
+        <TouchableOpacity
+          style={styles.searchButton}
+          onPress={() => {
+            searchTypeChanged(searchTypeEnum.fridge);
+            searchRecipes();
+          }}
+        >
           <Text style={styles.textButton}>Que puis-je cuisiner aujourd&apos;hui ?</Text>
         </TouchableOpacity>
       </View>
