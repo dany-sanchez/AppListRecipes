@@ -15,17 +15,13 @@ const searchTypeEnum = { normal: 'normal', fridge: 'fridge' };
 
 const SearchRecipe = ({ navigation }) => {
   const [recipes, setRecipes] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [searchDiet, setSearchDiet] = useState('');
   const [searchCuisine, setSearchCuisine] = useState('');
   const [isRefreshing, setRefreshingState] = useState(false);
   const [isErrorDuringDataLoading, setErrorDataLoading] = useState(false);
-  const searchTerm = useRef('');
   const searchType = useRef(searchTypeEnum.normal);
   const paginationData = useRef({ currentOffset: 0, maxResults: 0 });
-
-  const inputSearchTermChanged = (text) => {
-    searchTerm.current = text;
-  };
 
   const searchTypeChanged = (type) => {
     searchType.current = type;
@@ -36,7 +32,7 @@ const SearchRecipe = ({ navigation }) => {
     setErrorDataLoading(false);
     try {
       const spoonacularSearchResult = await getRecipesOfDietAndCuisineWithSearch(
-        searchTerm.current,
+        searchTerm,
         paginationData.current.currentOffset,
         searchDiet,
         searchCuisine
@@ -56,11 +52,13 @@ const SearchRecipe = ({ navigation }) => {
   };
 
   const searchRecipes = () => {
-    paginationData.current = { currentOffset: 0, maxResults: 0 };
-
     if (searchType.current === searchTypeEnum.normal) {
+      paginationData.current = { currentOffset: 0, maxResults: 0 };
       loadRecipes([]);
     } else if (searchType.current === searchTypeEnum.fridge) {
+      setSearchDiet('');
+      setSearchCuisine('');
+      setSearchTerm('');
       loadFridgeRecipes();
     }
   };
@@ -96,8 +94,9 @@ const SearchRecipe = ({ navigation }) => {
         <TextInput
           style={styles.searchField}
           placeholder="Nom de la recette"
-          onChangeText={(text) => inputSearchTermChanged(text)}
+          onChangeText={(text) => setSearchTerm(text)}
           onSubmitEditing={() => { searchTypeChanged(searchTypeEnum.normal); searchRecipes(); }}
+          value={searchTerm}
         />
         <TouchableOpacity
           style={styles.searchButton}
