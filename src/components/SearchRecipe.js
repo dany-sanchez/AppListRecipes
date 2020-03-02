@@ -1,25 +1,75 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import {
-  View, TextInput, StyleSheet, Image, Text
+  View, TextInput, StyleSheet, Image, Text, Keyboard
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../definitions/colors';
 import assets from '../definitions/assets';
 import ListRecipes from './ListRecipes';
-import recipesFakeData from '../helper/recipesFakeData';
+import { getRecipesOfDietAndCuisineWithSearch } from '../api/spoonacular';
+import DisplayError from './DisplayError';
 
-const Search = ({ navigation }) => {
+const SearchRecipe = ({ navigation }) => {
+  const [recipes, setRecipes] = useState([]);
+  const [isRefreshing, setRefreshingState] = useState(false);
+  const [isErrorDuringDataLoading, setErrorDataLoading] = useState(false);
+  const searchTerm = useRef('');
+  const paginationData = useRef({ currentOffset: 0, maxResults: 0 });
+
+  const inputSearchTermChanged = (text) => {
+    searchTerm.current = text;
+  };
+
+  const loadRecipes = async (prevRecipes) => {
+    setRefreshingState(true);
+    setErrorDataLoading(false);
+    try {
+      const spoonacularSearchResult = await getRecipesOfDietAndCuisineWithSearch(
+        searchTerm.current,
+        paginationData.current.currentOffset
+      );
+      paginationData.current = {
+        currentOffset: paginationData.current.currentOffset + spoonacularSearchResult.number,
+        maxResults: spoonacularSearchResult.totalResults
+      };
+      setRecipes([...prevRecipes, ...spoonacularSearchResult.results]);
+    } catch {
+      paginationData.current = { currentOffset: 0, maxResults: 0 };
+      setRecipes([]);
+      setErrorDataLoading(true);
+    } finally {
+      setRefreshingState(false);
+    }
+  };
+
+  const searchRecipes = () => {
+    paginationData.current = { currentOffset: 0, maxResults: 0 };
+    loadRecipes([]);
+  };
+
+  const loadMoreRecipes = () => {
+    if (paginationData.current.currentOffset < paginationData.current.maxResults) {
+      loadRecipes(recipes);
+    }
+  };
+
   const navigateToRecipeDetails = (recipeID) => {
     navigation.navigate('Recipe', { recipeID });
   };
+
   return (
     <View style={styles.mainView}>
       <View style={styles.searchView}>
         <TextInput
           style={styles.searchField}
           placeholder="Nom de la recette"
+          onChangeText={(text) => inputSearchTermChanged(text)}
+          onSubmitEditing={searchRecipes}
         />
-        <TouchableOpacity style={styles.searchButton}>
+        <TouchableOpacity
+          style={styles.searchButton}
+          onPress={() => { searchRecipes(); Keyboard.dismiss(); }}
+        >
           <Image
             style={styles.searchButtonIcon}
             source={assets.searchIcon}
@@ -46,19 +96,26 @@ const Search = ({ navigation }) => {
           <Text style={styles.textButton}>Que puis-je cuisiner aujourd&apos;hui ?</Text>
         </TouchableOpacity>
       </View>
-      <ListRecipes
-        recipes={recipesFakeData.results}
-        onClickNavigation={navigateToRecipeDetails}
-      />
+      {isErrorDuringDataLoading ? (
+        <DisplayError errorMessage="Erreur lors de la récupération des données" />
+      ) : (
+        <ListRecipes
+          recipes={recipes}
+          refreshingState={isRefreshing}
+          onClickNavigation={navigateToRecipeDetails}
+          refreshRecipes={searchRecipes}
+          loadMoreRecipes={loadMoreRecipes}
+        />
+      )}
     </View>
   );
 };
 
-Search.navigationOptions = {
+SearchRecipe.navigationOptions = {
   title: 'Recherche',
 };
 
-export default Search;
+export default SearchRecipe;
 
 const styles = StyleSheet.create({
   mainView: {

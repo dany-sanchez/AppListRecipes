@@ -3,12 +3,12 @@ import {
   StyleSheet, View, ActivityIndicator, Image, Text
 } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import { getRecipeImagePath } from '../api/spoonacular';
-import recipeDetailsFakeData from '../helper/recipeDetailsFakeData';
+import { connect } from 'react-redux';
+import { getRecipeImagePath, getRecipeDetails } from '../api/spoonacular';
 import assets from '../definitions/assets';
 import colors from '../definitions/colors';
 
-const Recipe = () => {
+const Recipe = ({ navigation, savedRecipes, dispatch }) => {
   const [isLoading, setLoadingState] = useState(true);
   const [recipeData, setRecipeData] = useState(null);
 
@@ -18,8 +18,7 @@ const Recipe = () => {
 
   const loadRecipe = async () => {
     try {
-      // setRecipeData(await getRecipeDetails(navigation.getParam('recipeID')));
-      setRecipeData(recipeDetailsFakeData);
+      setRecipeData(await getRecipeDetails(navigation.getParam('recipeID')));
       setLoadingState(false);
     } catch {
       // eslint-disable-next-line no-console
@@ -27,11 +26,21 @@ const Recipe = () => {
     }
   };
 
-  const toggleSave = () => {
+  const toggleSave = async () => {
+    if (recipeData) {
+      const action = { value: recipeData };
 
+      if (isSaved()) {
+        action.type = 'UNSAVE_RECIPE';
+      } else {
+        action.type = 'SAVE_RECIPE';
+      }
+
+      dispatch(action);
+    }
   };
 
-  const isSaved = () => true;
+  const isSaved = () => savedRecipes.findIndex((obj) => obj.id === navigation.getParam('recipeID')) !== -1;
 
   const displaySaveRecipe = () => (
     <TouchableOpacity onPress={() => toggleSave()}>
@@ -54,28 +63,77 @@ const Recipe = () => {
   };
 
   const displayWines = () => {
-    if (recipeData.winePairing.pairedWines.length > 0) {
+    if (recipeData.winePairing && Object.entries(recipeData.winePairing).length > 0) {
       return (
-        <Text style={styles.pairedWines}>{recipeData.winePairing.pairedWines.join(', ')}</Text>
+        <View style={styles.wineContainer}>
+          <Text style={[styles.subTitleText, { fontStyle: 'italic' }]}>
+            Un peu de vin monsieur ?
+          </Text>
+          <View style={styles.subDetailsContainer}>
+            {recipeData.winePairing.pairedWines && recipeData.winePairing.pairedWines.length > 0
+              ? <Text style={styles.pairedWines}>{recipeData.winePairing.pairedWines.join(', ')}</Text>
+              : null}
+            <Text style={styles.winePairingText}>{recipeData.winePairing.pairingText}</Text>
+          </View>
+        </View>
       );
     }
 
     return null;
   };
 
-  const displayInstructions = () => (
-    <View>
-      {recipeData.analyzedInstructions[0].steps.map((instruction) => (
-        <View style={styles.instructionStep} key={instruction.number}>
-          <Text style={styles.stepNumber}>
-            {instruction.number}
-            .
+  const displayInstructions = () => {
+    if (recipeData.analyzedInstructions
+      && Object.entries(recipeData.analyzedInstructions).length > 0) {
+      return (
+        <View style={styles.instructionsContainer}>
+          <Text style={styles.subTitleText}>
+            Instructions
           </Text>
-          <Text style={styles.stepContent}>{instruction.step}</Text>
+          <View style={styles.subDetailsContainer}>
+            <View>
+              {recipeData.analyzedInstructions[0].steps.map((instruction) => (
+                <View style={styles.instructionStep} key={instruction.number}>
+                  <Text style={styles.stepNumber}>
+                    {instruction.number}
+                    .
+                  </Text>
+                  <Text style={styles.stepContent}>{instruction.step}</Text>
+                </View>
+              ))}
+            </View>
+          </View>
         </View>
-      ))}
-    </View>
-  );
+      );
+    }
+
+    return null;
+  };
+
+  const displayIngredients = () => {
+    if (recipeData.extendedIngredients
+      && Object.entries(recipeData.extendedIngredients).length > 0) {
+      return (
+        <View style={styles.ingredientsContainer}>
+          <Text style={styles.subTitleText}>
+            Ingrédients
+          </Text>
+          <View style={styles.subDetailsContainer}>
+            <View style={styles.ingredientsSubContainer}>
+              <Text style={styles.ingredientsSubTitle}>Dans mon frigo</Text>
+              {/* Afficher la liste d'ingrédients */}
+            </View>
+            <View style={[styles.ingredientsSubContainer, { borderLeftWidth: 1 }]}>
+              <Text style={styles.ingredientsSubTitle}>Manquant</Text>
+              {/* Afficher la liste d'ingrédients */}
+            </View>
+          </View>
+        </View>
+      );
+    }
+
+    return null;
+  };
 
   const displayRecipe = () => {
     if (recipeData) {
@@ -117,38 +175,9 @@ const Recipe = () => {
                 personnes
               </Text>
             </View>
-            <View style={styles.ingredientsContainer}>
-              <Text style={styles.subTitleText}>
-                Ingrédients
-              </Text>
-              <View style={styles.subDetailsContainer}>
-                <View style={styles.ingredientsSubContainer}>
-                  <Text style={styles.ingredientsSubTitle}>Dans mon frigo</Text>
-                  {/* Afficher la liste d'ingrédients */}
-                </View>
-                <View style={[styles.ingredientsSubContainer, { borderLeftWidth: 1 }]}>
-                  <Text style={styles.ingredientsSubTitle}>Manquant</Text>
-                  {/* Afficher la liste d'ingrédients */}
-                </View>
-              </View>
-            </View>
-            <View style={styles.instructionsContainer}>
-              <Text style={styles.subTitleText}>
-                Instructions
-              </Text>
-              <View style={styles.subDetailsContainer}>
-                {displayInstructions()}
-              </View>
-            </View>
-            <View style={styles.wineContainer}>
-              <Text style={[styles.subTitleText, { fontStyle: 'italic' }]}>
-                Un peu de vin monsieur ?
-              </Text>
-              <View style={styles.subDetailsContainer}>
-                {displayWines()}
-                <Text style={styles.winePairingText}>{recipeData.winePairing.pairingText}</Text>
-              </View>
-            </View>
+            {displayIngredients()}
+            {displayInstructions()}
+            {displayWines()}
           </View>
         </ScrollView>
       );
@@ -164,11 +193,11 @@ const Recipe = () => {
   );
 };
 
-Recipe.navigationOptions = {
-  title: 'Recette',
-};
+const mapStateToProps = (state) => ({
+  savedRecipes: state.recipes
+});
 
-export default Recipe;
+export default connect(mapStateToProps)(Recipe);
 
 const styles = StyleSheet.create({
   mainView: {

@@ -2,7 +2,7 @@ const API_KEY = 'd99016218c4242bba3927c475191b2f9';
 
 export async function getRecipesOfDietAndCuisineWithSearch(searchTerm, startOffset, diet, cuisine) {
   try {
-    const url = `https://api.spoonacular.com/recipes/search?apiKey=${API_KEY}&query=${searchTerm || '%20'}&diet=${diet}&cuisine=${cuisine}&offset=${startOffset || '0'}`;
+    const url = `https://api.spoonacular.com/recipes/search?apiKey=${API_KEY}&query=${searchTerm || '%20'}&diet=${diet || ''}&cuisine=${cuisine || ''}&offset=${startOffset || '0'}`;
 
     const response = await fetch(url);
     if (response.ok) {

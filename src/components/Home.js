@@ -5,36 +5,42 @@ import {
 import colors from '../definitions/colors';
 import assets from '../definitions/assets';
 
-const Home = () => (
-  <View style={styles.mainView}>
-    <View style={styles.buttonsContainer}>
-      <TouchableOpacity style={styles.buttonContainer}>
-        <View style={styles.buttonView}>
-          <Image style={styles.buttonIcon} source={assets.fridgeIcon} />
-          <View style={styles.textContainer}>
-            <Text style={styles.homeButtonText}>Mon frigo</Text>
+const Home = ({ navigation }) => {
+  const navigateToMyRecipes = () => {
+    navigation.navigate('SavedRecipes');
+  };
+
+  return (
+    <View style={styles.mainView}>
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity style={styles.buttonContainer}>
+          <View style={styles.buttonView}>
+            <Image style={styles.buttonIcon} source={assets.fridgeIcon} />
+            <View style={styles.textContainer}>
+              <Text style={styles.homeButtonText}>Mon frigo</Text>
+            </View>
           </View>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonContainer}>
-        <View style={styles.buttonView}>
-          <Image style={styles.buttonIcon} source={assets.shoppingCartIcon} />
-          <View style={styles.textContainer}>
-            <Text style={styles.homeButtonText}>Ma liste</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonContainer}>
+          <View style={styles.buttonView}>
+            <Image style={styles.buttonIcon} source={assets.shoppingCartIcon} />
+            <View style={styles.textContainer}>
+              <Text style={styles.homeButtonText}>Ma liste</Text>
+            </View>
           </View>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonContainer}>
-        <View style={styles.buttonView}>
-          <Image style={styles.buttonIcon} source={assets.bookmarkIcon} />
-          <View style={styles.textContainer}>
-            <Text style={styles.homeButtonText}>Mes recettes</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonContainer} onPress={navigateToMyRecipes}>
+          <View style={styles.buttonView}>
+            <Image style={styles.buttonIcon} source={assets.bookmarkIcon} />
+            <View style={styles.textContainer}>
+              <Text style={styles.homeButtonText}>Mes recettes</Text>
+            </View>
           </View>
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </View>
     </View>
-  </View>
-);
+  );
+};
 
 Home.navigationOptions = {
   title: 'Moi',

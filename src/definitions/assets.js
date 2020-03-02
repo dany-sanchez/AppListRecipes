@@ -4,6 +4,7 @@ const settingsIcon = require('../assets/icons/settings.png');
 const shoppingCartIcon = require('../assets/icons/shopping-cart.png');
 const bookmarkIcon = require('../assets/icons/bookmark.png');
 const fridgeIcon = require('../assets/icons/fridge.png');
+const errorIcon = require('../assets/icons/error.png');
 
 export default {
   searchIcon,
@@ -12,4 +13,5 @@ export default {
   shoppingCartIcon,
   bookmarkIcon,
   fridgeIcon,
+  errorIcon,
 };
