@@ -16,7 +16,7 @@ const SearchIngredient = () => {
   };
 
   return (
-    <View style={styles.mainView}>
+    <View>
       <View style={styles.searchView}>
         <TextInput
           style={styles.searchField}
@@ -51,9 +51,6 @@ const SearchIngredient = () => {
 export default SearchIngredient;
 
 const styles = StyleSheet.create({
-  mainView: {
-    flex: 1,
-  },
   searchView: {
     paddingHorizontal: 10,
     paddingBottom: 5,

@@ -40,3 +40,7 @@ export async function getRecipeDetails(recipeID) {
 export function getRecipeImagePath(recipeID, type, dimensions) {
   return `https://spoonacular.com/recipeImages/${recipeID}-${dimensions || '556x370'}.${type || 'jpg'}`;
 }
+
+export function getIngredientImagePath(ingredientName, type, dimensions) {
+  return `https://spoonacular.com/cdn/ingredients_${dimensions || '100x100'}/${ingredientName}.${type || 'jpg'}`;
+}
