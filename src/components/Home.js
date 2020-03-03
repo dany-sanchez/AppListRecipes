@@ -10,10 +10,18 @@ const Home = ({ navigation }) => {
     navigation.navigate('SavedRecipes');
   };
 
+  const navigateToMyFridge = () => {
+    navigation.navigate('Fridge');
+  };
+
+  const navigateToMyShoppingList = () => {
+    navigation.navigate('ShoppingList');
+  };
+
   return (
     <View style={styles.mainView}>
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.buttonContainer} onPress={navigateToMyFridge}>
           <View style={styles.buttonView}>
             <Image style={styles.buttonIcon} source={assets.fridgeIcon} />
             <View style={styles.textContainer}>
@@ -21,7 +29,7 @@ const Home = ({ navigation }) => {
             </View>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.buttonContainer} onPress={navigateToMyShoppingList}>
           <View style={styles.buttonView}>
             <Image style={styles.buttonIcon} source={assets.shoppingCartIcon} />
             <View style={styles.textContainer}>
