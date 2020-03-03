@@ -31,8 +31,6 @@ const Recipe = ({ navigation, savedRecipes, dispatch }) => {
     if (recipeData) {
       const action = { value: recipeData };
 
-      console.log(recipesTypes.UNSAVE_RECIPE)
-
       if (isSaved()) {
         action.type = recipesTypes.UNSAVE_RECIPE;
       } else {
@@ -45,7 +43,7 @@ const Recipe = ({ navigation, savedRecipes, dispatch }) => {
 
   const isSaved = () => savedRecipes.findIndex((obj) => obj.id === navigation.getParam('recipeID')) !== -1;
 
-  const displaySaveRecipe = () => (
+  const displaySavedRecipe = () => (
     <TouchableOpacity onPress={() => toggleSave()}>
       {isSaved()
         ? <Image source={assets.bookmarkIcon} style={styles.savedIcon} />
@@ -152,7 +150,7 @@ const Recipe = ({ navigation, savedRecipes, dispatch }) => {
                 <Text style={styles.nameText}>
                   {recipeData.title}
                 </Text>
-                {displaySaveRecipe()}
+                {displaySavedRecipe()}
               </View>
               <View style={styles.cuisineDietContainer}>
                 <Text style={styles.detailsText}>
