@@ -1,4 +1,4 @@
-import * as recipesTypes from '../definitions/types/recipes';
+import recipesTypes from '../definitions/types/recipes';
 
 const initialState = { recipes: [] };
 

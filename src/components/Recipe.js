@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { getRecipeImagePath, getRecipeDetails } from '../api/spoonacular';
 import assets from '../definitions/assets';
 import colors from '../definitions/colors';
-import * as recipesTypes from '../store/definitions/types/recipes';
+import recipesTypes from '../store/definitions/types/recipes';
 
 const Recipe = ({ navigation, savedRecipes, dispatch }) => {
   const [isLoading, setLoadingState] = useState(true);
@@ -30,6 +30,8 @@ const Recipe = ({ navigation, savedRecipes, dispatch }) => {
   const toggleSave = async () => {
     if (recipeData) {
       const action = { value: recipeData };
+
+      console.log(recipesTypes.UNSAVE_RECIPE)
 
       if (isSaved()) {
         action.type = recipesTypes.UNSAVE_RECIPE;
