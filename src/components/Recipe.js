@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { getRecipeImagePath, getRecipeDetails } from '../api/spoonacular';
 import assets from '../definitions/assets';
 import colors from '../definitions/colors';
+import * as recipesTypes from '../store/definitions/types/recipes';
 
 const Recipe = ({ navigation, savedRecipes, dispatch }) => {
   const [isLoading, setLoadingState] = useState(true);
@@ -31,9 +32,9 @@ const Recipe = ({ navigation, savedRecipes, dispatch }) => {
       const action = { value: recipeData };
 
       if (isSaved()) {
-        action.type = 'UNSAVE_RECIPE';
+        action.type = recipesTypes.UNSAVE_RECIPE;
       } else {
-        action.type = 'SAVE_RECIPE';
+        action.type = recipesTypes.SAVE_RECIPE;
       }
 
       dispatch(action);

@@ -1,0 +1,4 @@
+export default {
+  SAVE_RECIPE: 'SAVE_RECIPE',
+  UNSAVE_RECIPE: 'UNSAVE_RECIPE',
+};
