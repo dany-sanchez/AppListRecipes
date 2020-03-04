@@ -1,9 +1,21 @@
+import {store} from '../store/config'
+import settingsTypes from '../store/definitions/types/settings';
+
 const API_KEY = 'd99016218c4242bba3927c475191b2f9';
 const API_URL = 'https://api.spoonacular.com';
 
 const fetchUrl = async (url, errorMessage = 'Error when fetching url') => {
   try {
     const response = await fetch(url);
+    if(response.headers.map['x-api-quota-used'] !== undefined) {
+      store.dispatch({
+        settingsTypes: settingsTypes.SET_API_DATA,
+        value: {
+          credits: (150 - response.headers.map['x-api-quota-used']).toFixed(2),
+          lastUpdate: (new Date()).toUTCString()
+        }
+      });
+    }
     if (response.ok) {
       return response.json();
     }

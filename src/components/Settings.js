@@ -1,12 +1,89 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet, Text, Switch, Image } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { connect } from "react-redux";
+import colors from '../definitions/colors';
+import assets from '../definitions/assets';
 
-const Settings = () => (
-  <View />
-);
+const Settings = ({ settings }) => {
+
+
+  return (
+    <View style={styles.mainView}>
+      <Text style={styles.titleText}>Configuration</Text>
+      <View style={styles.switchView}>
+        <Switch style={styles.switch}></Switch>
+        <Text>Add ingredients removed from the fridge to the shopping list</Text>
+      </View>
+      <View style={styles.switchView}>
+        <Switch style={styles.switch}></Switch>
+        <Text>When adding an ingredient to the fridge from the shopping list, remove it from the shopping list</Text>
+      </View>
+      <Text style={styles.titleText}>API</Text>
+      <Text>Api credits remaining: {settings.apiData.credits}  </Text>
+      <Text>Last update: {settings.apiData.lastUpdate} </Text>
+      <TouchableOpacity style={styles.buttonContainer}>
+        <View style={styles.buttonView}>
+          <Image style={styles.buttonIcon} source={assets.deleteIcon} />
+          <View style={styles.textContainer}>
+            <Text style={styles.buttonText}>Clear data</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 Settings.navigationOptions = {
   title: 'Paramètres',
 };
 
-export default Settings;
+const mapStateToProps = (state) => ({
+  settings: state.settings
+});
+
+export default connect(mapStateToProps)(Settings);
+
+
+const styles = StyleSheet.create({
+  mainView: {
+    flex: 1,
+    padding: 20,
+  },
+  switchView: {
+    flexDirection: "row",
+    marginBottom: 30
+  },
+  switch: {
+    marginRight: 10
+  },
+  titleText: {
+    color: colors.mainOrangeColor,
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 40,
+    marginBottom: 20
+  },
+  buttonContainer: {
+    backgroundColor: colors.mainOrangeColor,
+    margin: 40,
+    borderRadius: 5,
+  },
+  buttonView: {
+    flexDirection: 'row',
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+  },
+  buttonIcon: {
+    alignSelf: 'center',
+    marginRight: 5,
+    width: 25,
+    height: 25,
+    tintColor: colors.mainWhiteColor,
+  },
+  buttonText: {
+    color: colors.mainWhiteColor,
+    fontSize: 20,
+    fontWeight: 'bold',
+  }
+});
