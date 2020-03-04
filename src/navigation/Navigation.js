@@ -11,6 +11,7 @@ import Recipe from '../components/Recipe';
 import SavedRecipes from '../components/SavedRecipes';
 import Fridge from '../components/Fridge';
 import ShoppingList from '../components/ShoppingList';
+import AddIngredient from '../components/AddIngredient';
 import assets from '../definitions/assets';
 import colors from '../definitions/colors';
 
@@ -28,6 +29,7 @@ const HomeNavigation = createStackNavigator({
   Recipe,
   Fridge,
   ShoppingList,
+  AddIngredient,
 },
 {
   initialRouteName: 'Home',

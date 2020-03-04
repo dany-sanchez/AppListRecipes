@@ -1,141 +1,82 @@
-export default [{
-  id: 92663,
-  aisle: 'Produce',
-  name: 'apple',
-  image: 'pineapple.jpg',
-  amount: 1.0,
-  consistency: 'solid',
-  estimatedCost: {
-    unit: 'US Cents',
-    value: 299.0
+export default [
+  {
+    name: 'apple',
+    image: 'apple.jpg',
+    id: 9003,
+    aisle: 'Produce',
+    possibleUnits: [
+      'small',
+      'large',
+      'piece',
+      'slice',
+      'g',
+      'extra small',
+      'medium',
+      'oz',
+      'cup slice',
+      'cup',
+      'serving'
+    ]
   },
-  meta: [],
-  original: null,
-  originalName: null,
-  shoppingListUnits: [
-    'pieces'
-  ],
-  unit: '',
-  unitLong: '',
-  unitShort: '',
-  possibleUnits: [
-    'piece',
-    'slice',
-    'fruit',
-    'g',
-    'cup',
-    'serving'
-  ],
-}, {
-  id: 9266,
-  aisle: 'Produce',
-  name: 'pineapple',
-  image: 'pineapple.jpg',
-  amount: 1.0,
-  consistency: 'solid',
-  estimatedCost: {
-    unit: 'US Cents',
-    value: 299.0
+  {
+    name: 'applesauce',
+    image: 'applesauce.png',
+    id: 9019,
+    aisle: 'Canned and Jarred',
+    possibleUnits: [
+      'g',
+      'oz',
+      'cup',
+      'serving',
+      'tablespoon'
+    ]
   },
-  meta: [],
-  original: null,
-  originalName: null,
-  shoppingListUnits: [
-    'pieces'
-  ],
-  unit: '',
-  unitLong: '',
-  unitShort: '',
-  possibleUnits: [
-    'piece',
-    'slice',
-    'fruit',
-    'g',
-    'cup',
-    'serving'
-  ],
-}, {
-  id: 92664,
-  aisle: 'Produce',
-  name: 'lemon',
-  image: 'pineapple.jpg',
-  amount: 1.0,
-  consistency: 'solid',
-  estimatedCost: {
-    unit: 'US Cents',
-    value: 299.0
+  {
+    name: 'apple juice',
+    image: 'apple-juice.jpg',
+    id: 9016,
+    aisle: 'Beverages',
+    possibleUnits: [
+      'g',
+      'drink box',
+      'fl oz',
+      'oz',
+      'teaspoon',
+      'cup',
+      'serving',
+      'tablespoon'
+    ]
   },
-  meta: [],
-  original: null,
-  originalName: null,
-  shoppingListUnits: [
-    'pieces'
-  ],
-  unit: '',
-  unitLong: '',
-  unitShort: '',
-  possibleUnits: [
-    'piece',
-    'slice',
-    'fruit',
-    'g',
-    'cup',
-    'serving'
-  ],
-}, {
-  id: 92665,
-  aisle: 'Produce',
-  name: 'pineapple',
-  image: 'pineapple.jpg',
-  amount: 1.0,
-  consistency: 'solid',
-  estimatedCost: {
-    unit: 'US Cents',
-    value: 299.0
+  {
+    name: 'apple cider',
+    image: 'apple-cider.jpg',
+    id: 1009016,
+    aisle: 'Beverages',
+    possibleUnits: [
+      'g',
+      'drink box',
+      'fl oz',
+      'oz',
+      'teaspoon',
+      'bottle NFS',
+      'cup',
+      'serving',
+      'tablespoon'
+    ]
   },
-  meta: [],
-  original: null,
-  originalName: null,
-  shoppingListUnits: [
-    'pieces'
-  ],
-  unit: '',
-  unitLong: '',
-  unitShort: '',
-  possibleUnits: [
-    'piece',
-    'slice',
-    'fruit',
-    'g',
-    'cup',
-    'serving'
-  ],
-}, {
-  id: 92661,
-  aisle: 'Produce',
-  name: 'carrots',
-  image: 'pineapple.jpg',
-  amount: 1.0,
-  consistency: 'solid',
-  estimatedCost: {
-    unit: 'US Cents',
-    value: 299.0
+  {
+    name: 'apple jelly',
+    image: 'apple-jelly.jpg',
+    id: 10019297,
+    aisle: 'Nut butters, Jams, and Honey',
+    possibleUnits: [
+      'g',
+      'oz',
+      'packet',
+      'teaspoon',
+      'cup',
+      'serving',
+      'tablespoon'
+    ]
   },
-  meta: [],
-  original: null,
-  originalName: null,
-  shoppingListUnits: [
-    'pieces'
-  ],
-  unit: '',
-  unitLong: '',
-  unitShort: '',
-  possibleUnits: [
-    'piece',
-    'slice',
-    'fruit',
-    'g',
-    'cup',
-    'serving'
-  ],
-}];
+];

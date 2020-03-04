@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
 import {
-  View, TextInput, StyleSheet, Text
+  View, TextInput, StyleSheet, Text, Keyboard
 } from 'react-native';
 import colors from '../definitions/colors';
 import RadioButton from './common/RadioButton';
 
-const radioButtons = { nom: 'Nom', rayon: 'Rayon' };
+export const radioButtons = {
+  nom: { label: 'Nom', value: 'name' },
+  rayon: { label: 'Rayon', value: 'aisle' },
+  defaultValue: 'name'
+};
 
-const SearchIngredient = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [radio, setRadio] = useState(radioButtons.nom);
+const SearchIngredient = ({ onChangeSearchTerm, searchTerm, onCheckRadio }) => {
+  const [radio, setRadio] = useState(radioButtons.defaultValue);
 
   const checkRadio = (value) => {
     setRadio(value);
+    onCheckRadio(value);
   };
 
   return (
@@ -21,7 +25,8 @@ const SearchIngredient = () => {
         <TextInput
           style={styles.searchField}
           placeholder="Nom de l'ingrédient"
-          onChangeText={(text) => setSearchTerm(text)}
+          onChangeText={(text) => onChangeSearchTerm(text)}
+          onSubmitEditing={({ nativeEvent: { text } }) => onChangeSearchTerm(text)}
           value={searchTerm}
         />
       </View>
@@ -29,17 +34,17 @@ const SearchIngredient = () => {
         <Text style={styles.sortBy}>Trier par : </Text>
         <RadioButton
           style={styles.radioButton}
-          key={radioButtons.nom}
-          label={radioButtons.nom}
-          value={radioButtons.nom}
+          key={radioButtons.nom.value}
+          label={radioButtons.nom.label}
+          value={radioButtons.nom.value}
           onSelecting={checkRadio}
           selected={radio}
         />
         <RadioButton
           style={styles.radioButton}
-          key={radioButtons.rayon}
-          label={radioButtons.rayon}
-          value={radioButtons.rayon}
+          key={radioButtons.rayon.value}
+          label={radioButtons.rayon.label}
+          value={radioButtons.rayon.value}
           onSelecting={checkRadio}
           selected={radio}
         />

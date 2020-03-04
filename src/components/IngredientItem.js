@@ -38,7 +38,7 @@ const IngredientItem = ({ ingredient }) => {
     >
       <Image
         style={styles.ingredientImage}
-        source={{ uri: getIngredientImagePath(ingredient.name) }}
+        source={{ uri: getIngredientImagePath(ingredient.image) }}
       />
       <View style={styles.infoContainer}>
         <Text
