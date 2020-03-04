@@ -121,7 +121,7 @@ const Recipe = ({ navigation, savedRecipes, dispatch }) => {
             Ingrédients
           </Text>
           <View style={[styles.subDetailsContainer, { flex: 1, flexDirection: 'row' }]}>
-            <View style={[styles.ingredientsSubContainer, { flex: 1 }]}>
+            <View style={styles.ingredientsSubContainer}>
               <Text style={styles.ingredientsSubTitle}>Dans mon frigo</Text>
               <FlatList
                 style={styles.listIngredients}
@@ -134,7 +134,7 @@ const Recipe = ({ navigation, savedRecipes, dispatch }) => {
                 )}
               />
             </View>
-            <View style={[styles.ingredientsSubContainer, { borderLeftWidth: 1, flex: 1 }]}>
+            <View style={[styles.ingredientsSubContainer, { borderLeftWidth: 1 }]}>
               <Text style={styles.ingredientsSubTitle}>Manquant</Text>
               <FlatList
                 style={styles.listIngredients}
@@ -246,6 +246,9 @@ const styles = StyleSheet.create({
     color: colors.mainOrangeColor,
     alignSelf: 'center',
     fontStyle: 'italic'
+  },
+  ingredientsSubContainer: {
+    flex: 1,
   },
   nameContainer: {
     flexDirection: 'row',

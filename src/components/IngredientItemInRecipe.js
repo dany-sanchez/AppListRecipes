@@ -3,41 +3,37 @@ import {
   StyleSheet, View, Text, Image
 } from 'react-native';
 
-import colors from '../definitions/colors';
 import { getIngredientImagePath } from '../api/spoonacular';
 
-const IngredientItemRecipe = ({ ingredient }) =>
-// savedRecipes.findIndex((obj) => obj.id === navigation.getParam('recipeID')) !== -1;
-
-  (
-    <View
-      style={styles.mainContainer}
-    >
-      <Image
-        style={styles.ingredientImage}
-        source={{ uri: getIngredientImagePath(ingredient.image) }}
-      />
-      <View style={styles.infoContainer}>
-        <Text
-          style={styles.ingredientNameText}
-          numberOfLines={1}
-        >
-          {ingredient.original}
-        </Text>
-      </View>
+const IngredientItemRecipe = ({ ingredient }) => (
+  <View
+    style={styles.mainContainer}
+  >
+    <Image
+      style={styles.ingredientImage}
+      source={{ uri: getIngredientImagePath(ingredient.image) }}
+    />
+    <View style={styles.infoContainer}>
+      <Text
+        style={styles.ingredientNameText}
+        numberOfLines={7}
+      >
+        {ingredient.original}
+      </Text>
     </View>
-  );
+  </View>
+);
 export default IngredientItemRecipe;
 
 const styles = StyleSheet.create({
   mainContainer: {
     marginVertical: 10,
-    marginHorizontal: 15,
+    marginHorizontal: 10,
     flexDirection: 'row',
   },
   ingredientImage: {
-    height: 50,
-    width: 50,
+    height: 30,
+    width: 30,
     marginVertical: 20,
   },
   infoContainer: {
