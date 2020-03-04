@@ -18,18 +18,14 @@ const ListIngredients = ({
     setFilteredIngredients(loadedIngredients);
   };
 
-  const sortIngredients = (ingredientsToSort) => {
-    return ingredientsToSort.sort(
-      (a, b) => a[sortBy].localeCompare(b[sortBy])
-    );
-  };
+  const sortIngredients = (ingredientsToSort) => ingredientsToSort.sort(
+    (a, b) => a[sortBy].localeCompare(b[sortBy])
+  );
 
-  const filterIngredients = (ingredientsToFilter) => {
-    return ingredientsToFilter.filter(
-      ({ name }) => textFilter.trim().length === 0
+  const filterIngredients = (ingredientsToFilter) => ingredientsToFilter.filter(
+    ({ name }) => textFilter.trim().length === 0
       || name.trim().toLowerCase().includes(textFilter.trim().toLowerCase())
-    );
-  };
+  );
 
   return (
     <FlatList

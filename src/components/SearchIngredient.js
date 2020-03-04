@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  View, TextInput, StyleSheet, Text, Keyboard
+  View, TextInput, StyleSheet, Text
 } from 'react-native';
 import colors from '../definitions/colors';
 import RadioButton from './common/RadioButton';
