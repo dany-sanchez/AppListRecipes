@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import {
   StyleSheet, View, ActivityIndicator, Image, Text
 } from 'react-native';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
 import { getRecipeImagePath, getRecipeDetails } from '../api/spoonacular';
 import assets from '../definitions/assets';
 import colors from '../definitions/colors';
 import recipesTypes from '../store/definitions/types/recipes';
+import IngredientItemRecipe from './IngredientItemInRecipe';
 
 const Recipe = ({ navigation, savedRecipes, dispatch }) => {
   const [isLoading, setLoadingState] = useState(true);
@@ -119,14 +120,32 @@ const Recipe = ({ navigation, savedRecipes, dispatch }) => {
           <Text style={styles.subTitleText}>
             Ingrédients
           </Text>
-          <View style={styles.subDetailsContainer}>
-            <View style={styles.ingredientsSubContainer}>
+          <View style={[styles.subDetailsContainer, { flex: 1, flexDirection: 'row' }]}>
+            <View style={[styles.ingredientsSubContainer, { flex: 1 }]}>
               <Text style={styles.ingredientsSubTitle}>Dans mon frigo</Text>
-              {/* Afficher la liste d'ingrédients */}
+              <FlatList
+                style={styles.listIngredients}
+                data={recipeData.extendedIngredients}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => (
+                  <IngredientItemRecipe
+                    ingredient={item}
+                  />
+                )}
+              />
             </View>
-            <View style={[styles.ingredientsSubContainer, { borderLeftWidth: 1 }]}>
+            <View style={[styles.ingredientsSubContainer, { borderLeftWidth: 1, flex: 1 }]}>
               <Text style={styles.ingredientsSubTitle}>Manquant</Text>
-              {/* Afficher la liste d'ingrédients */}
+              <FlatList
+                style={styles.listIngredients}
+                data={recipeData.extendedIngredients}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => (
+                  <IngredientItemRecipe
+                    ingredient={item}
+                  />
+                )}
+              />
             </View>
           </View>
         </View>
@@ -222,6 +241,12 @@ const styles = StyleSheet.create({
   detailsContainer: {
     marginBottom: 10,
   },
+  ingredientsSubTitle: {
+    fontSize: 14,
+    color: colors.mainOrangeColor,
+    alignSelf: 'center',
+    fontStyle: 'italic'
+  },
   nameContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -266,5 +291,5 @@ const styles = StyleSheet.create({
   },
   winePairingText: {
     fontStyle: 'italic',
-  }
+  },
 });
