@@ -41,12 +41,14 @@ const IngredientItem = ({ ingredient }) => {
         source={{ uri: getIngredientImagePath(ingredient.image) }}
       />
       <View style={styles.infoContainer}>
-        <Text
-          style={styles.ingredientNameText}
-          numberOfLines={1}
-        >
-          {displayName()}
-        </Text>
+        <View style={styles.textContainer}>
+          <Text
+            style={styles.ingredientNameText}
+            numberOfLines={3}
+          >
+            {displayName()}
+          </Text>
+        </View>
         <View style={styles.actionButtonContainer}>
           {displaySavedIngredient()}
           <TouchableOpacity style={[styles.actionButton, { marginLeft: 10 }]}>
@@ -109,5 +111,8 @@ const styles = StyleSheet.create({
     height: 25,
     width: 25,
     tintColor: colors.mainOrangeColor,
-  }
+  },
+  textContainer: {
+    flex: 1,
+  },
 });
