@@ -4,23 +4,32 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { StyleSheet, Image } from 'react-native';
 
-import Search from '../components/Search';
+import SearchRecipe from '../components/SearchRecipe';
 import Home from '../components/Home';
 import Settings from '../components/Settings';
 import Recipe from '../components/Recipe';
+import SavedRecipes from '../components/SavedRecipes';
+import Fridge from '../components/Fridge';
+import ShoppingList from '../components/ShoppingList';
+import AddIngredient from '../components/AddIngredient';
 import assets from '../definitions/assets';
 import colors from '../definitions/colors';
 
 const SearchNavigation = createStackNavigator({
-  Search,
+  SearchRecipe,
   Recipe,
 },
 {
-  initialRouteName: 'Search',
+  initialRouteName: 'SearchRecipe',
 });
 
 const HomeNavigation = createStackNavigator({
   Home,
+  SavedRecipes,
+  Recipe,
+  Fridge,
+  ShoppingList,
+  AddIngredient,
 },
 {
   initialRouteName: 'Home',
@@ -34,7 +43,7 @@ const SettingsNavigation = createStackNavigator({
 });
 
 const TabNavigation = createBottomTabNavigator({
-  Search: {
+  SearchRecipe: {
     screen: SearchNavigation,
     navigationOptions: {
       title: 'Recherche',

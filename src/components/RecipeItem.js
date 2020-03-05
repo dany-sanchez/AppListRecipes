@@ -18,9 +18,7 @@ const RecipeItem = ({ recipe, onClickOnMe, isSaved }) => {
       );
     }
 
-    return (
-      <View />
-    );
+    return null;
   };
 
   return (
