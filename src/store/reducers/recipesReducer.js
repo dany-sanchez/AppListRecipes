@@ -17,6 +17,12 @@ function saveRecipes(state = initialState, action) {
         recipes: state.recipes.filter((obj) => obj.id !== action.value.id)
       };
       return nextState || state;
+    case recipesTypes.RESET:
+      nextState = {
+        recipes: []
+      };
+      return nextState || state;
+
     default:
       return state;
   }
