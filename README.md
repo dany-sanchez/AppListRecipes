@@ -1,4 +1,7 @@
 # AppListRecipes
+
+![CI](https://github.com/dany-sanchez/AppListRecipes/workflows/CI/badge.svg?branch=master)
+
 Projet de développement mobile réalisé en react native
 
 ## Premier lancement :
