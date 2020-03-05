@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   searchView: {
-    paddingHorizontal: 10,
+    marginHorizontal: 10,
     paddingBottom: 5,
     paddingTop: 10,
     flexDirection: 'row',
@@ -194,8 +194,8 @@ const styles = StyleSheet.create({
     tintColor: colors.mainWhiteColor,
   },
   searchOptionsView: {
-    paddingHorizontal: 10,
-    paddingVertical: 10,
+    marginHorizontal: 10,
+    marginVertical: 10,
   },
   optionsContainer: {
     flexDirection: 'row',
@@ -206,13 +206,13 @@ const styles = StyleSheet.create({
   optionButtonDiet: {
     backgroundColor: colors.mainBlackColor,
     borderRadius: 5,
-    paddingVertical: 10,
+    marginVertical: 10,
     marginRight: 10,
   },
   optionButtonCuisine: {
     backgroundColor: colors.mainBlackColor,
     borderRadius: 5,
-    paddingVertical: 10,
+    marginVertical: 10,
     marginLeft: 10,
   },
   textButton: {

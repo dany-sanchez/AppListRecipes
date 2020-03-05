@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
   },
   buttonView: {
     flexDirection: 'row',
-    paddingVertical: 15,
-    paddingHorizontal: 10,
+    marginVertical: 15,
+    marginHorizontal: 10,
   },
   buttonIcon: {
     alignSelf: 'center',

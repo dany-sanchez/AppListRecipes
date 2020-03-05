@@ -57,13 +57,13 @@ export default SearchIngredient;
 
 const styles = StyleSheet.create({
   searchView: {
-    paddingHorizontal: 10,
+    marginHorizontal: 10,
     paddingBottom: 5,
     paddingTop: 10,
     flexDirection: 'row',
   },
   radioButtons: {
-    paddingHorizontal: 10,
+    marginHorizontal: 10,
     paddingBottom: 5,
     flexDirection: 'row',
     alignItems: 'center',

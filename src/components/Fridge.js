@@ -14,10 +14,13 @@ import fridgeTypes from '../store/definitions/types/fridge';
 import shoppingListTypes from '../store/definitions/types/shoppingList';
 
 const Fridge = ({
-  navigation, fridgeIngredients, dispatch
+  navigation, fridgeIngredients, shoppingListIngredients, settings, dispatch
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortValue, setSortValue] = useState(radioButtons.defaultValue);
+
+  // eslint-disable-next-line
+  const isSaved = (ingredient) => shoppingListIngredients.findIndex((obj) => obj.id === ingredient.id) !== -1;
 
   const searchTermChanged = (text) => {
     setSearchTerm(text);
@@ -39,6 +42,9 @@ const Fridge = ({
   const unsaveIngredientFromFridge = (ingredient) => {
     const action = { value: ingredient, type: fridgeTypes.UNSAVE_INGREDIENT_FRIDGE };
     dispatch(action);
+    if (settings.addIngredientToShoppingList && !isSaved(ingredient)) {
+      saveIngredientInShoppingList(ingredient);
+    }
   };
 
   const actions = {
@@ -95,6 +101,8 @@ Fridge.navigationOptions = {
 
 const mapStateToProps = (state) => ({
   fridgeIngredients: state.fridgeState.ingredients,
+  settings: state.settingsState,
+  shoppingListIngredients: state.shoppingListState.ingredients
 });
 
 export default connect(mapStateToProps)(Fridge);
@@ -116,11 +124,6 @@ const styles = StyleSheet.create({
     height: 25,
     width: 25,
     tintColor: colors.mainWhiteColor,
-  },
-  buttonView: {
-    flexDirection: 'row',
-    paddingVertical: 10,
-    paddingHorizontal: 10,
   },
   textContainer: {
     flexGrow: 1,

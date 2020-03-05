@@ -17,6 +17,12 @@ function saveFridgeIngredients(state = initialState, action) {
         ingredients: state.ingredients.filter((obj) => obj.id !== action.value.id)
       };
       return nextState || state;
+    case fridgeTypes.RESET:
+      nextState = {
+        ingredients: []
+      };
+      return nextState || state;
+
     default:
       return state;
   }
