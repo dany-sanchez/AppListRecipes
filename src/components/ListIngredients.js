@@ -3,7 +3,7 @@ import { FlatList, StyleSheet } from 'react-native';
 import IngredientItem from './IngredientItem';
 
 const ListIngredients = ({
-  ingredients, sortBy, refreshingState, textFilter
+  ingredients, sortBy, refreshingState, textFilter, actions
 }) => {
   const [filteredIngredients, setFilteredIngredients] = useState([]);
 
@@ -35,6 +35,7 @@ const ListIngredients = ({
       renderItem={({ item }) => (
         <IngredientItem
           ingredient={item}
+          actions={actions}
         />
       )}
       refreshing={refreshingState}

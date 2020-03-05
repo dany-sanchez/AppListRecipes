@@ -35,8 +35,9 @@ export async function getRecipesOfDietAndCuisineWithSearch(searchTerm, startOffs
 }
 
 export async function getRecipesWithIngredientsFromFridge() {
-  // TODO: ajouter la recherche des ingrédients depuis le frigo
-  const ingredients = '';
+  const ingredients = store.getState().fridgeState.ingredients.map(
+    (ingredient) => ingredient.name
+  ).join();
   const url = `${API_URL}/recipes/findByIngredients?apiKey=${API_KEY}&ingredients=${ingredients || ''}`;
   const response = await fetchUrl(url, 'Error with function getRecipesWithIngredientsFromFridge');
 
