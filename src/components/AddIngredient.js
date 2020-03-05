@@ -1,16 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 import SearchIngredient, { radioButtons } from './SearchIngredient';
 import ListIngredients from './ListIngredients';
 import DisplayError from './DisplayError';
 import { getIngredientsWithAutocompleteSearch } from '../api/spoonacular';
+import assets from '../definitions/assets';
+import fridgeTypes from '../store/definitions/types/fridge';
+import shoppingListTypes from '../store/definitions/types/shoppingList';
 
 export const typeAdd = {
   fridge: { label: 'mon frigo', value: 'fridge' },
   list: { label: 'ma liste', value: 'list' }
 };
 
-const AddIngredient = ({ navigation }) => {
+const AddIngredient = ({
+  navigation, fridgeIngredients, shoppingListIngredients, dispatch
+}) => {
   const [ingredients, setIngredients] = useState([]);
   const [searchTerm, setSearchTerm] = useState(navigation.getParam('searchTerm') || '');
   const [isRefreshing, setRefreshingState] = useState(false);
@@ -20,7 +26,7 @@ const AddIngredient = ({ navigation }) => {
 
   useEffect(() => {
     loadIngredientsAutocomplete(searchTerm);
-  }, []);
+  }, [fridgeIngredients, shoppingListIngredients]);
 
   const searchTermChanged = (text) => {
     setSearchTerm(text);
@@ -48,6 +54,33 @@ const AddIngredient = ({ navigation }) => {
     }
   };
 
+  const saveIngredientInShoppingList = (ingredient) => {
+    const action = { value: ingredient, type: shoppingListTypes.SAVE_INGREDIENT_SHOPPINGLIST };
+    dispatch(action);
+  };
+
+  const saveIngredientInFridge = (ingredient) => {
+    const action = { value: ingredient, type: fridgeTypes.SAVE_INGREDIENT_FRIDGE };
+    dispatch(action);
+  };
+
+  const actions = {
+    [typeAdd.fridge.value]: {
+      saveIngredientToFridge: {
+        icon: assets.fridgeIcon,
+        typeList: typeAdd.fridge.value,
+        action: saveIngredientInFridge
+      },
+    },
+    [typeAdd.list.value]: {
+      saveIngredientToShoppingList: {
+        icon: assets.shoppingCartIcon,
+        typeList: typeAdd.list.value,
+        action: saveIngredientInShoppingList
+      },
+    },
+  };
+
   return (
     <View style={styles.mainView}>
       <SearchIngredient
@@ -63,6 +96,7 @@ const AddIngredient = ({ navigation }) => {
           ingredients={ingredients}
           textFilter={searchTerm}
           refreshingState={isRefreshing}
+          actions={actions[typeAddRef.current.value]}
         />
       )}
     </View>
@@ -73,7 +107,12 @@ AddIngredient.navigationOptions = (props) => ({
   title: `Ajouter à ${props.navigation.getParam('typeAdd').label}`,
 });
 
-export default AddIngredient;
+const mapStateToProps = (state) => ({
+  fridgeIngredients: state.fridgeState.ingredients,
+  shoppingListIngredients: state.shoppingListState.ingredients,
+});
+
+export default connect(mapStateToProps)(AddIngredient);
 
 const styles = StyleSheet.create({
   mainView: {

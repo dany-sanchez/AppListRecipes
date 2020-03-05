@@ -214,7 +214,7 @@ const Recipe = ({ navigation, savedRecipes, dispatch }) => {
 };
 
 const mapStateToProps = (state) => ({
-  savedRecipes: state.recipes
+  savedRecipes: state.recipeState.recipes
 });
 
 export default connect(mapStateToProps)(Recipe);

@@ -2,35 +2,50 @@ import React from 'react';
 import {
   StyleSheet, TouchableOpacity, View, Text, Image
 } from 'react-native';
-
+import { connect } from 'react-redux';
 import colors from '../definitions/colors';
-import assets from '../definitions/assets';
 import { getIngredientImagePath } from '../api/spoonacular';
 
-const IngredientItem = ({ ingredient }) => {
+const IngredientItem = ({
+  ingredient, actions, fridgeIngredients, shoppingListIngredients
+}) => {
   const displayName = () => ingredient.name.charAt(0).toUpperCase() + ingredient.name.slice(1);
 
-  const isSaved = () => true;
-  // savedRecipes.findIndex((obj) => obj.id === navigation.getParam('recipeID')) !== -1;
+  const isItSaved = (typeAddPassed) => (
+    typeAddPassed === 'fridge'
+      ? fridgeIngredients
+      : shoppingListIngredients
+  )
+    .findIndex(
+      (obj) => obj.id === ingredient.id
+    ) !== -1;
 
-  const displaySavedIngredient = () => (
-    isSaved() ? (
-      <TouchableOpacity style={styles.actionButtonSaved}>
+  const displayActionsButtons = () => Object.keys(actions).map((action) => {
+    let style = { icon: styles.actionButtonIcon, button: styles.actionButton };
+    let isSaved = false;
+
+    if (actions[action].typeList !== undefined) {
+      isSaved = isItSaved(actions[action].typeList);
+    }
+
+    if (isSaved) {
+      style = { icon: styles.actionButtonSavedIcon, button: styles.actionButtonSaved };
+    }
+
+    return (
+      <TouchableOpacity
+        key={`${action}-${ingredient.id.toString()}`}
+        style={[style.button, { marginLeft: 10 }]}
+        onPress={() => actions[action].action(ingredient)}
+        disabled={isSaved}
+      >
         <Image
-          style={styles.actionButtonSavedIcon}
-          source={assets.shoppingCartIcon}
+          style={style.icon}
+          source={actions[action].icon}
         />
       </TouchableOpacity>
-    )
-      : (
-        <TouchableOpacity style={styles.actionButton}>
-          <Image
-            style={styles.actionButtonIcon}
-            source={assets.shoppingCartIcon}
-          />
-        </TouchableOpacity>
-      )
-  );
+    );
+  });
 
   return (
     <View
@@ -50,20 +65,19 @@ const IngredientItem = ({ ingredient }) => {
           </Text>
         </View>
         <View style={styles.actionButtonContainer}>
-          {displaySavedIngredient()}
-          <TouchableOpacity style={[styles.actionButton, { marginLeft: 10 }]}>
-            <Image
-              style={styles.actionButtonIcon}
-              source={assets.deleteIcon}
-            />
-          </TouchableOpacity>
+          {displayActionsButtons()}
         </View>
       </View>
     </View>
   );
 };
 
-export default IngredientItem;
+const mapStateToProps = (state) => ({
+  fridgeIngredients: state.fridgeState.ingredients,
+  shoppingListIngredients: state.shoppingListState.ingredients,
+});
+
+export default connect(mapStateToProps)(IngredientItem);
 
 const styles = StyleSheet.create({
   mainContainer: {
