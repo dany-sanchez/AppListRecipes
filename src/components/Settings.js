@@ -1,11 +1,21 @@
 import React from 'react';
-import { View, StyleSheet, Text, Switch, Image } from 'react-native';
+import { View, StyleSheet, Text, Switch, Image, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { connect } from "react-redux";
 import colors from '../definitions/colors';
 import assets from '../definitions/assets';
+import { resetPersistor } from '../store/config';
 
 const Settings = ({ settings }) => {
+
+  const resetStore = () => {
+    Alert.alert('Confirmation', 'Everything you saved will be erased, do you want to clear the data ?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'OK', onPress: () => resetPersistor() },
+      ]
+    )
+  };
 
 
   return (
@@ -20,9 +30,9 @@ const Settings = ({ settings }) => {
         <Text>When adding an ingredient to the fridge from the shopping list, remove it from the shopping list</Text>
       </View>
       <Text style={styles.titleText}>API</Text>
-      <Text>Api credits remaining: {settings.apiData.credits}  </Text>
+      <Text>Api credits remaining: {settings.apiData.credits || '.....'}  </Text>
       <Text>Last update: {settings.apiData.lastUpdate} </Text>
-      <TouchableOpacity style={styles.buttonContainer}>
+      <TouchableOpacity style={styles.buttonContainer} onPress={() => resetStore()}>
         <View style={styles.buttonView}>
           <Image style={styles.buttonIcon} source={assets.deleteIcon} />
           <View style={styles.textContainer}>
@@ -39,7 +49,7 @@ Settings.navigationOptions = {
 };
 
 const mapStateToProps = (state) => ({
-  settings: state.settings
+  settings: state.settingsState
 });
 
 export default connect(mapStateToProps)(Settings);

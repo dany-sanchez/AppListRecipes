@@ -17,6 +17,11 @@ function saveShoppingListIngredients(state = initialState, action) {
         ingredients: state.ingredients.filter((obj) => obj.id !== action.value.id)
       };
       return nextState || state;
+    case shoppingListTypes.RESET:
+      nextState = {
+        ingredients: []
+      };
+      return nextState || state;
     default:
       return state;
   }

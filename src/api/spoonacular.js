@@ -8,10 +8,11 @@ const fetchUrl = async (url, errorMessage = 'Error when fetching url') => {
   try {
     const response = await fetch(url);
     if(response.headers.map['x-api-quota-used'] !== undefined) {
+      const credits = response.headers.map['x-api-quota-used']
       store.dispatch({
-        settingsTypes: settingsTypes.SET_API_DATA,
+        type: settingsTypes.SET_API_DATA,
         value: {
-          credits: (150 - response.headers.map['x-api-quota-used']).toFixed(2),
+          credits: (150 - Math.round(credits)),
           lastUpdate: (new Date()).toUTCString()
         }
       });
