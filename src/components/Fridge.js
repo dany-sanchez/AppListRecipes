@@ -19,9 +19,8 @@ const Fridge = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [sortValue, setSortValue] = useState(radioButtons.defaultValue);
 
-  const isSaved = (ingredient) => {
-    return shoppingListIngredients.findIndex((obj) => obj.id === ingredient.id) !== -1;
-  }
+  // eslint-disable-next-line
+  const isSaved = (ingredient) => shoppingListIngredients.findIndex((obj) => obj.id === ingredient.id) !== -1;
 
   const searchTermChanged = (text) => {
     setSearchTerm(text);
@@ -43,8 +42,8 @@ const Fridge = ({
   const unsaveIngredientFromFridge = (ingredient) => {
     const action = { value: ingredient, type: fridgeTypes.UNSAVE_INGREDIENT_FRIDGE };
     dispatch(action);
-    if(settings.addIngredientToShoppingList && !isSaved(ingredient)){
-      saveIngredientInShoppingList(ingredient)
+    if (settings.addIngredientToShoppingList && !isSaved(ingredient)) {
+      saveIngredientInShoppingList(ingredient);
     }
   };
 

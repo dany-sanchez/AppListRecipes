@@ -16,7 +16,7 @@ const reducers = combineReducers({
   recipeState: recipesReducer,
   fridgeState: fridgeIngredientsReducer,
   shoppingListState: shoppingListIngredientsReducer,
-  settingsState : settingsReducer,
+  settingsState: settingsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -26,5 +26,5 @@ export const store = createStore(persistedReducer);
 export const persistor = persistStore(store);
 
 export const resetPersistor = () => {
-  store.dispatch({type: 'RESET'});
+  store.dispatch({ type: 'RESET' });
 };
