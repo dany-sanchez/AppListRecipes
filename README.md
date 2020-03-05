@@ -49,3 +49,7 @@ var sharedBlacklist = [
 ## Démarrage
 
 Lancer la commande ``` expo start ``` ou ``` npm start ``` pour démarrer.
+
+## Télécharger
+
+L'APK est disponible au téléchargement dans la dernière [release](https://github.com/dany-sanchez/AppListRecipes/releases/latest) du projet.

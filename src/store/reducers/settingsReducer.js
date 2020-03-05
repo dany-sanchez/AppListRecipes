@@ -3,7 +3,9 @@ import settingsTypes from '../definitions/types/settings';
 const initialState = {
   apiData: {
     credits: null,
-    lastUpdate: (new Date()).toUTCString()
+    lastUpdate: `${(new Date()).toLocaleDateString('fr-FR',
+      { year: 'numeric', month: 'long', day: 'numeric' })} à ${new Date().toLocaleTimeString('fr-FR',
+      { hour: '2-digit', minute: '2-digit' })}`
   },
   addIngredientToShoppingList: false,
   removeIngredientFromShoppingList: false
@@ -34,7 +36,9 @@ function settings(state = initialState, action) {
       nextState = {
         apiData: {
           credits: null,
-          lastUpdate: (new Date()).toUTCString()
+          lastUpdate: `${(new Date()).toLocaleDateString('fr-FR',
+            { year: 'numeric', month: 'long', day: 'numeric' })} à ${new Date().toLocaleTimeString('fr-FR',
+            { hour: '2-digit', minute: '2-digit' })}`
         }
       };
       return nextState || state;

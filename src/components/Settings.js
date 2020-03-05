@@ -42,7 +42,11 @@ const Settings = ({ settings }) => {
           onChange={switchAddIngredientToShoppingList}
           value={settings.addIngredientToShoppingList}
         />
-        <Text>Add ingredients removed from the fridge to the shopping list</Text>
+        <View style={styles.textContainer}>
+          <Text>
+            Ajouter les ingrédients supprimés du frigo à la liste de courses
+          </Text>
+        </View>
       </View>
       <View style={styles.switchView}>
         <Switch
@@ -50,25 +54,37 @@ const Settings = ({ settings }) => {
           onChange={switchRemoveIngredientFromShoppingList}
           value={settings.removeIngredientFromShoppingList}
         />
-        <Text>
-          {/* eslint-disable-next-line */}
-          When adding an ingredient to the fridge from the shopping list, remove it from the shopping list
-        </Text>
+        <View style={styles.textContainer}>
+          <Text>
+            Lors de l&apos;ajout d&apos;un ingrédient au frigo depuis la liste de courses,
+            supprimer l&apos;ingrédient de la liste d&apos;achats
+          </Text>
+        </View>
       </View>
       <Text style={styles.titleText}>API</Text>
-      <Text>
-        Api credits remaining:
-        {settings.apiData.credits || '.....'}
-      </Text>
-      <Text>
-        Last update:
-        {settings.apiData.lastUpdate}
-      </Text>
+      <View style={styles.inlineText}>
+        <Text>
+          Crédits API restants :
+          {' '}
+        </Text>
+        <Text style={styles.dataText}>
+          {settings.apiData.credits || '.....'}
+        </Text>
+      </View>
+      <View style={styles.inlineText}>
+        <Text>
+          Dernière mise à jour :
+          {' '}
+        </Text>
+        <Text style={styles.dataText}>
+          {settings.apiData.lastUpdate}
+        </Text>
+      </View>
       <TouchableOpacity style={styles.buttonContainer} onPress={() => resetStore()}>
         <View style={styles.buttonView}>
           <Image style={styles.buttonIcon} source={assets.deleteIcon} />
           <View style={styles.textContainer}>
-            <Text style={styles.buttonText}>Clear data</Text>
+            <Text style={styles.buttonText}>Effacer les données</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -97,6 +113,7 @@ const styles = StyleSheet.create({
     marginBottom: 30
   },
   switch: {
+    alignSelf: 'center',
     marginRight: 10
   },
   titleText: {
@@ -123,9 +140,20 @@ const styles = StyleSheet.create({
     height: 25,
     tintColor: colors.mainWhiteColor,
   },
+  textContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
   buttonText: {
     color: colors.mainWhiteColor,
     fontSize: 20,
+    fontWeight: 'bold',
+  },
+  inlineText: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  dataText: {
     fontWeight: 'bold',
   }
 });
