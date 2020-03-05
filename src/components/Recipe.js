@@ -10,7 +10,9 @@ import colors from '../definitions/colors';
 import recipesTypes from '../store/definitions/types/recipes';
 import IngredientItemRecipe from './IngredientItemInRecipe';
 
-const Recipe = ({ navigation, savedRecipes, dispatch }) => {
+const Recipe = ({
+  navigation, savedRecipes, fridgeIngredients, dispatch
+}) => {
   const [isLoading, setLoadingState] = useState(true);
   const [recipeData, setRecipeData] = useState(null);
 
@@ -40,6 +42,19 @@ const Recipe = ({ navigation, savedRecipes, dispatch }) => {
 
       dispatch(action);
     }
+  };
+
+  const getIngredients = (inFridge) => {
+    if (recipeData.extendedIngredients) {
+      return recipeData.extendedIngredients
+        .filter(
+          (ingredient) => inFridge === (fridgeIngredients.findIndex(
+            (obj) => obj.id === ingredient.id
+          ) !== -1)
+        );
+    }
+
+    return null;
   };
 
   const isSaved = () => savedRecipes.findIndex((obj) => obj.id === navigation.getParam('recipeID')) !== -1;
@@ -125,7 +140,7 @@ const Recipe = ({ navigation, savedRecipes, dispatch }) => {
               <Text style={styles.ingredientsSubTitle}>Dans mon frigo</Text>
               <FlatList
                 style={styles.listIngredients}
-                data={recipeData.extendedIngredients}
+                data={getIngredients(true)}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                   <IngredientItemRecipe
@@ -135,10 +150,10 @@ const Recipe = ({ navigation, savedRecipes, dispatch }) => {
               />
             </View>
             <View style={[styles.ingredientsSubContainer, { borderLeftWidth: 1 }]}>
-              <Text style={styles.ingredientsSubTitle}>Manquant</Text>
+              <Text style={styles.ingredientsSubTitle}>Manquants</Text>
               <FlatList
                 style={styles.listIngredients}
-                data={recipeData.extendedIngredients}
+                data={getIngredients(false)}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                   <IngredientItemRecipe
@@ -214,7 +229,8 @@ const Recipe = ({ navigation, savedRecipes, dispatch }) => {
 };
 
 const mapStateToProps = (state) => ({
-  savedRecipes: state.recipeState.recipes
+  savedRecipes: state.recipeState.recipes,
+  fridgeIngredients: state.fridgeState.ingredients,
 });
 
 export default connect(mapStateToProps)(Recipe);
