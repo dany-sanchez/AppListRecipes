@@ -4,9 +4,24 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { connect } from "react-redux";
 import colors from '../definitions/colors';
 import assets from '../definitions/assets';
-import { resetPersistor } from '../store/config';
+import { resetPersistor, store } from '../store/config';
+import settingsTypes from '../store/definitions/types/settings';
 
 const Settings = ({ settings }) => {
+
+  const switchAddIngredientToShoppingList = () => {
+    store.dispatch({
+      type: settingsTypes.ADD_INGREDIENT_TO_SHOPPING_LIST,
+      value: !settings.addIngredientToShoppingList
+    })
+  }
+
+  const switchRemoveIngredientFromShoppingList = () => {
+    store.dispatch({
+      type: settingsTypes.REMOVE_INGREDIENT_FROM_SHOPPING_LIST,
+      value: !settings.removeIngredientFromShoppingList
+    })
+  }
 
   const resetStore = () => {
     Alert.alert('Clear data', 'Are you sure ? You will loose every saved items.',
@@ -22,11 +37,11 @@ const Settings = ({ settings }) => {
     <View style={styles.mainView}>
       <Text style={styles.titleText}>Configuration</Text>
       <View style={styles.switchView}>
-        <Switch style={styles.switch}></Switch>
+        <Switch style={styles.switch} onChange={switchAddIngredientToShoppingList} value={settings.addIngredientToShoppingList}></Switch>
         <Text>Add ingredients removed from the fridge to the shopping list</Text>
       </View>
       <View style={styles.switchView}>
-        <Switch style={styles.switch}></Switch>
+        <Switch style={styles.switch} onChange={switchRemoveIngredientFromShoppingList} value={settings.removeIngredientFromShoppingList}></Switch>
         <Text>When adding an ingredient to the fridge from the shopping list, remove it from the shopping list</Text>
       </View>
       <Text style={styles.titleText}>API</Text>

@@ -4,7 +4,9 @@ const initialState = {
   apiData: {
     credits: null,
     lastUpdate: (new Date()).toUTCString()
-  }
+  },
+  addIngredientToShoppingList: false,
+  removeIngredientFromShoppingList: false
 };
 
 function settings(state = initialState, action) {
@@ -14,6 +16,18 @@ function settings(state = initialState, action) {
       nextState = {
         ...state,
         apiData: action.value
+      };
+      return nextState || state;
+    case settingsTypes.ADD_INGREDIENT_TO_SHOPPING_LIST:
+      nextState = {
+        ...state,
+        addIngredientToShoppingList: action.value
+      };
+      return nextState || state;
+    case settingsTypes.REMOVE_INGREDIENT_FROM_SHOPPING_LIST:
+      nextState = {
+        ...state,
+        removeIngredientFromShoppingList: action.value
       };
       return nextState || state;
     case settingsTypes.RESET:

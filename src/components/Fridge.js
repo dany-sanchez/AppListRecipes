@@ -14,7 +14,7 @@ import fridgeTypes from '../store/definitions/types/fridge';
 import shoppingListTypes from '../store/definitions/types/shoppingList';
 
 const Fridge = ({
-  navigation, fridgeIngredients, dispatch
+  navigation, fridgeIngredients, settings, dispatch
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortValue, setSortValue] = useState(radioButtons.defaultValue);
@@ -39,6 +39,9 @@ const Fridge = ({
   const unsaveIngredientFromFridge = (ingredient) => {
     const action = { value: ingredient, type: fridgeTypes.UNSAVE_INGREDIENT_FRIDGE };
     dispatch(action);
+    if(settings.addIngredientToShoppingList){
+      saveIngredientInShoppingList(ingredient)
+    }
   };
 
   const actions = {
@@ -95,6 +98,7 @@ Fridge.navigationOptions = {
 
 const mapStateToProps = (state) => ({
   fridgeIngredients: state.fridgeState.ingredients,
+  settings: state.settingsState
 });
 
 export default connect(mapStateToProps)(Fridge);
