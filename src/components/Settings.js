@@ -9,10 +9,10 @@ import { resetPersistor } from '../store/config';
 const Settings = ({ settings }) => {
 
   const resetStore = () => {
-    Alert.alert('Confirmation', 'Everything you saved will be erased, do you want to clear the data ?',
+    Alert.alert('Clear data', 'Are you sure ? You will loose every saved items.',
       [
         { text: 'Cancel', style: 'cancel' },
-        { text: 'OK', onPress: () => resetPersistor() },
+        { text: 'Confirm', onPress: () => resetPersistor() },
       ]
     )
   };
