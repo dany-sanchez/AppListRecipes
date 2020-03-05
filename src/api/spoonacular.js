@@ -13,7 +13,9 @@ const fetchUrl = async (url, errorMessage = 'Error when fetching url') => {
         type: settingsTypes.SET_API_DATA,
         value: {
           credits: (150 - Math.round(credits)),
-          lastUpdate: (new Date()).toUTCString()
+          lastUpdate: `${(new Date()).toLocaleDateString('fr-FR',
+            { year: 'numeric', month: 'long', day: 'numeric' })} à ${new Date().toLocaleTimeString('fr-FR',
+            { hour: '2-digit', minute: '2-digit' })}`
         }
       });
     }

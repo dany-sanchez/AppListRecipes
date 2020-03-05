@@ -190,14 +190,12 @@ const Recipe = ({
               </View>
               <View style={styles.cuisineDietContainer}>
                 <Text style={styles.detailsText}>
-                  {recipeData.cuisines.join(', ')}
-                  {' '}
-                  cuisine(s)
+                  {recipeData.cuisines.length > 0 ? `Cuisine(s) : ${recipeData.cuisines.join(', ')}`
+                    : 'Aucune cuisine renseignée'}
                 </Text>
                 <Text style={styles.detailsText}>
-                  {recipeData.diets.join(', ')}
-                  {' '}
-                  diet(s)
+                  {recipeData.diets.length > 0 ? `Régime(s) : ${recipeData.diets.join(', ')}`
+                    : 'Aucun régime renseigné'}
                 </Text>
               </View>
               <Text style={styles.detailsText}>
@@ -275,7 +273,6 @@ const styles = StyleSheet.create({
   textContainer: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
   },
   nameText: {
