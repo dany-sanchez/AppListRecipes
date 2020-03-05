@@ -115,11 +115,6 @@ const styles = StyleSheet.create({
     width: 25,
     tintColor: colors.mainWhiteColor,
   },
-  buttonView: {
-    flexDirection: 'row',
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-  },
   textContainer: {
     flexGrow: 1,
     flexDirection: 'row',

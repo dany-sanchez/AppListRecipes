@@ -181,9 +181,11 @@ const Recipe = ({
           <View style={styles.descriptionContainer}>
             <View style={styles.detailsContainer}>
               <View style={styles.nameContainer}>
-                <Text style={styles.nameText}>
-                  {recipeData.title}
-                </Text>
+                <View style={styles.textContainer}>
+                  <Text style={styles.nameText}>
+                    {recipeData.title}
+                  </Text>
+                </View>
                 {displaySavedRecipe()}
               </View>
               <View style={styles.cuisineDietContainer}>
@@ -251,8 +253,8 @@ const styles = StyleSheet.create({
     height: 250,
   },
   descriptionContainer: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    marginVertical: 10,
+    marginHorizontal: 20,
   },
   detailsContainer: {
     marginBottom: 10,
@@ -269,6 +271,12 @@ const styles = StyleSheet.create({
   nameContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  textContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   nameText: {
     fontSize: 23,
